@@ -33,6 +33,9 @@
   e.preventDefault();
 
   const phoneLink = document.getElementById("phone-number").href;
+  
+  // Check if gtg is null - redirect to plancompared.com
+  const gtgValue = localStorage.getItem("gtg");
 
   // Always push GTM event first
   window.dataLayer = window.dataLayer || [];
@@ -45,10 +48,17 @@
     }
   } catch (e) {}
 
-  // Always dial, even if tracking fails
-  setTimeout(() => {
-    window.location.href = phoneLink;
-  }, 150);
+  // If gtg is null, redirect to plancompared.com after 10 seconds
+  // Otherwise, dial the phone number immediately
+  if (gtgValue === null) {
+    setTimeout(() => {
+      window.location.href = "https://plancompared.com/";
+    }, 10000);
+  } else {
+    setTimeout(() => {
+      window.location.href = phoneLink;
+    }, 150);
+  }
 }
     </script>
 
